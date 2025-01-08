@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "掘金解鎖助手",
+    "version": "1.0",
+    "description": "自動移除掘金網站的遮罩層",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "host_permissions": [
+        "*://*.juejin.cn/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.juejin.cn/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "icons": {
+        "48": "icon48.png",
+        "128": "icon128.png"
+    }
+}

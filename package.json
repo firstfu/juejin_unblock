@@ -1,0 +1,11 @@
+{
+    "name": "juejin-unblock",
+    "version": "1.0.0",
+    "description": "掘金解鎖助手",
+    "scripts": {
+        "generate-icons": "node generate-icons.js"
+    },
+    "dependencies": {
+        "sharp": "^0.33.2"
+    }
+}
