@@ -1,27 +1,53 @@
 /**
  * @ Author: firstfu
  * @ Create Time: 2025-01-08
- * @ Description: 自動移除掘金網站遮罩層的內容腳本（僅限台灣地區使用）
+ * @ Description: 自動移除掘金網站遮罩層的內容腳本
  */
 
-// 檢查用戶是否來自台灣
-async function checkIfFromTaiwan() {
+// 檢查用戶是否來自中國大陸
+async function checkIfFromMainlandChina() {
   try {
+    // 檢查緩存
+    const cached = localStorage.getItem("userLocation");
+    if (cached) {
+      const { country_code, timestamp } = JSON.parse(cached);
+
+      // 檢查緩存是否在30天內
+      const now = Date.now();
+      const cacheAge = now - timestamp;
+      const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+
+      if (cacheAge < THIRTY_DAYS) {
+        return country_code === "CN";
+      }
+    }
+
+    // 如果沒有緩存或緩存已過期，則重新請求
     const response = await fetch("https://ipapi.co/json/");
     const data = await response.json();
-    return data.country_code === "TW";
+
+    // 儲存結果到緩存
+    localStorage.setItem(
+      "userLocation",
+      JSON.stringify({
+        country_code: data.country_code,
+        timestamp: Date.now(),
+      })
+    );
+
+    return data.country_code === "CN";
   } catch (error) {
     console.error("無法檢查地理位置:", error);
-    return false;
+    return true; // 發生錯誤時預設為中國大陸
   }
 }
 
 // 主要功能初始化
 async function initialize() {
-  const isFromTaiwan = await checkIfFromTaiwan();
+  const isFromMainlandChina = await checkIfFromMainlandChina();
 
-  if (!isFromTaiwan) {
-    console.log("此擴充功能僅供台灣地區使用");
+  if (isFromMainlandChina) {
+    console.log("很抱歉，此擴充功能暫時無法在您所在的地區使用");
     return;
   }
 

@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "掘金遮罩解鎖助手",
-    "version": "1.0",
-    "description": "自動移除掘金網站的遮罩層（僅限台灣地區使用）",
+    "version": "1.1",
+    "description": "自動移除掘金網站的遮罩層",
     "permissions": [],
     "host_permissions": [
         "*://*.juejin.cn/*",
